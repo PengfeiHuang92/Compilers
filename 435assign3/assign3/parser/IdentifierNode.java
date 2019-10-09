@@ -18,4 +18,9 @@ public class IdentifierNode extends Node {
 
         v.visit(this);
     }
+    
+    void printNode () {
+
+        System.out.println(id) ;
+    }
 }

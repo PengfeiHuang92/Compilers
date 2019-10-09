@@ -32,7 +32,7 @@ public class Parser extends ASTVisitor {
     ////USEFUL//////
     
     void error(String s) { 
-        throw new Error("near line "+lexer.line+": "+s); 
+        throw new Error("near line "); 
     }
 
    void match(int t) {
@@ -52,43 +52,69 @@ public class Parser extends ASTVisitor {
     public void visit (BlockNode n){
 
      
-        System.out.println("look: "+look);  
+       // System.out.println("look: "+look);  
         match('{') ;
-        System.out.println("{ got matched"); 
+       // System.out.println("{ got matched"); 
         
-        List<DeclarationNode> list = new LinkedList<DeclarationNode>();
-        System.out.println("Look: "+look); 
-        System.out.println("Look's tag: "+look.tag);
-        System.out.println("BASIC Tag: "+Tag.BASIC);
+        n.decls = new LinkedList<DeclarationNode>();
+      //  System.out.println("Look: "+look); 
+       // System.out.println("Look's tag: "+look.tag);
+       // System.out.println("BASIC Tag: "+Tag.BASIC);
         while(look.tag == Tag.BASIC) {
-            System.out.println("YOOOO");
             DeclarationNode decl = new DeclarationNode();
             decl.accept(this);
-            list.add(decl);
+            n.decls.add(decl);
 
         }
         
-       // System.out.println("out of while: ");
-        //for(int i=0; i<n.decls.length; i++)
-          //    n.decls[i].accept(this);
+        for(int i=0; i<n.decls.size(); i++){
+            // n.decls.get(i).accept(this);
+           // n.decls.get(i).type.printNode();
+           // n.decls.get(i).id.printNode();
+           n.decls.get(i).printNode();
+        }
+       // *******************STATEMENTS****************
+        n.stmts = new LinkedList<StatementNode>();
+      //  System.out.println("Look: "+look); 
+       // System.out.println("Look's tag: "+look.tag);
+       // System.out.println("BASIC Tag: "+Tag.BASIC);
+        while(look.tag == Tag.BASIC) {
+            DeclarationNode decl = new DeclarationNode();
+            decl.accept(this);
+            n.decls.add(decl);
+
+        }
+        
+        for(int i=0; i<n.decls.size(); i++){
+            // n.decls.get(i).accept(this);
+           // n.decls.get(i).type.printNode();
+           // n.decls.get(i).id.printNode();
+           n.decls.get(i).printNode();
+        }
+        
+        
+             
         match('}') ;
     }
     
     public void visit(DeclarationNode n){
-        n.type = new TypeNode();
+        
+        n.type = new TypeNode((Type) look);
         match(Tag.BASIC);
         n.type.accept(this);
         
-        Token t = look;
+       Token t = look;
         
         n.id = new IdentifierNode((Word) t);
         match(Tag.ID);
         n.id.accept(this);
         
         match(';');
+        
     }
     
     public void visit(TypeNode n){
+        
         
     }
     

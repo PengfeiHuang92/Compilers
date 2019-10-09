@@ -19,4 +19,12 @@ public class DeclarationNode extends Node {
 
         v.visit(this);
     }
+    
+    void printNode () {
+
+        System.out.println("TYPE: ");
+        type.printNode() ;
+        System.out.println("ID: ");
+        id.printNode() ;
+    }
 }

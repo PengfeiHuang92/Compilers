@@ -17,7 +17,9 @@ public class Lexer {
 
         reserve(new Word("true",  Tag.TRUE)) ;
         reserve(new Word("false", Tag.FALSE)) ;
-	
+        
+        reserve(Type.Int);
+        
         try{
             File file = new File("input.txt");
             fis = new FileInputStream(file);

@@ -1,6 +1,7 @@
 package assign3.parser ;
 
 import assign3.visitor.* ;
+import java.util.*;
 
 public class BlockNode extends Node {
 
@@ -8,7 +9,9 @@ public class BlockNode extends Node {
     //public AssignmentNode assign ;
     //Something like
    
-    public DeclarationNode[] decls ;
+    public List<DeclarationNode> decls ;
+    public List<StatmentNode> stmts ;
+
   // public StatementNode[] stmts ;
 
     public BlockNode () {

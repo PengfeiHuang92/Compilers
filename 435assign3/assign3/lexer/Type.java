@@ -1,6 +1,6 @@
 package assign3.lexer ;
 
-public class Type extends Word {
+public class Type extends Word{
 
    public int width = 0;          // width is used for storage allocation
 

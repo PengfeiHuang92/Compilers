@@ -5,7 +5,6 @@ import assign3.visitor.* ;
 
 public class TypeNode extends Node {
 
-   //public String s;
    public Type type;
    
    public TypeNode(){
@@ -13,13 +12,18 @@ public class TypeNode extends Node {
    }
    
    public TypeNode(Type type) {
-   // this.s = type.lexeme;
-    this.type = type;
+
+        this.type = type;
     }
     
     public void accept(ASTVisitor v) {
 
         v.visit(this);
+    }
+    
+    void printNode () {
+
+        System.out.println(type) ;
     }
     
     //visit

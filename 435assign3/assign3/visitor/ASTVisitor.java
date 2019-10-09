@@ -11,8 +11,8 @@ public class ASTVisitor {
     
     public void visit (BlockNode n) {
        // n.assign.accept(this)
-        for(int i=0; i<n.decls.length; i++)
-            n.decls[i].accept(this);
+        for(int i=0; i<n.decls.size(); i++)
+            n.decls.get(i).accept(this);
             
     }
     
@@ -22,11 +22,16 @@ public class ASTVisitor {
     }
     
     public void visit(TypeNode n){
-        
+        //n.type.accept(this);
+       // System.out.println(n.type);
+       n.accept(this);
     }
     
     public void visit(IdentifierNode n){
-    
+        //n.id.accept(this);
+       // System.out.println(n.id);
+       n.accept(this);
+
     }
     
 
