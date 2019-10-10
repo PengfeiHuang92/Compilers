@@ -36,15 +36,22 @@ public class Parser extends ASTVisitor {
     }
 
    void match(int t) {
-      if( look.tag == t ) readLexem();
+      if( look.tag == t ) move();
       else error("syntax error");
    }
+   
+   void move() {
+        try{
+            look = lexer.scan(); 
+        } catch (IOException er){
+            System.out.println("Error");
+            }
+            }
     ////USEFUL//////
 
 
     public void visit (CompilationUnit n) {
 
-        //n.assign = new AssignmentNode() ;
         n.block = new BlockNode();
         n.block.accept(this) ;
     }
@@ -52,49 +59,37 @@ public class Parser extends ASTVisitor {
     public void visit (BlockNode n){
 
      
-       // System.out.println("look: "+look);  
         match('{') ;
-       // System.out.println("{ got matched"); 
         
-        n.decls = new LinkedList<DeclarationNode>();
-      //  System.out.println("Look: "+look); 
-       // System.out.println("Look's tag: "+look.tag);
-       // System.out.println("BASIC Tag: "+Tag.BASIC);
+        List<DeclarationNode> list = new LinkedList<DeclarationNode>();
+
         while(look.tag == Tag.BASIC) {
             DeclarationNode decl = new DeclarationNode();
             decl.accept(this);
-            n.decls.add(decl);
+           list.add(decl);
 
         }
-        
-        for(int i=0; i<n.decls.size(); i++){
-            // n.decls.get(i).accept(this);
-           // n.decls.get(i).type.printNode();
-           // n.decls.get(i).id.printNode();
-           n.decls.get(i).printNode();
-        }
-       // *******************STATEMENTS****************
-        n.stmts = new LinkedList<StatementNode>();
-      //  System.out.println("Look: "+look); 
-       // System.out.println("Look's tag: "+look.tag);
-       // System.out.println("BASIC Tag: "+Tag.BASIC);
-        while(look.tag == Tag.BASIC) {
-            DeclarationNode decl = new DeclarationNode();
-            decl.accept(this);
-            n.decls.add(decl);
+        n.decls = list;
+           
+        List<StatementNode> stmtList = new LinkedList<StatementNode>();
+
+        while(look.tag == Tag.ID) {
+            StatementNode stmt = new StatementNode();
+            stmt.accept(this);
+            stmtList.add(stmt);
 
         }
+        n.stmts = stmtList;
         
-        for(int i=0; i<n.decls.size(); i++){
-            // n.decls.get(i).accept(this);
-           // n.decls.get(i).type.printNode();
-           // n.decls.get(i).id.printNode();
+        /*
+        for(int i=0; i<n.decls.size(); i++)
            n.decls.get(i).printNode();
-        }
-        
-        
-             
+      
+        for(int i=0; i<n.stmts.size(); i++)
+           n.stmts.get(i).printNode();
+        */
         match('}') ;
+        System.out.println();
     }
     
     public void visit(DeclarationNode n){
@@ -103,7 +98,7 @@ public class Parser extends ASTVisitor {
         match(Tag.BASIC);
         n.type.accept(this);
         
-       Token t = look;
+        Token t = look;
         
         n.id = new IdentifierNode((Word) t);
         match(Tag.ID);
@@ -111,6 +106,14 @@ public class Parser extends ASTVisitor {
         
         match(';');
         
+    }
+    
+    public void visit(StatementNode n){
+        n.assign = new AssignmentNode();
+        n.assign.accept(this);
+        
+        match(';');
+       // System.out.println();
     }
     
     public void visit(TypeNode n){
@@ -124,35 +127,67 @@ public class Parser extends ASTVisitor {
     
 
     public void visit (AssignmentNode n) {
-
         n.left = new LiteralNode() ;
         n.left.accept(this) ;
         
-        readLexem(); //reads =
-        
-        n.right = new AdditionNode() ;
-      //  n.right = new ExpressionNode() ;
+        System.out.print(look+" ");
+        match('='); //reads =
+        LiteralNode expLeft = new LiteralNode(look.toString());
+        String operator = readLexem().toString();
+        LiteralNode expRight;
+        switch(operator)
+        {
+            case "+":
+                match('+');
+                expRight = new LiteralNode(look.toString());
+                n.right = new AdditionNode(expLeft, expRight) ;
+            /*case "-":
+                match('-');
+                //LiteralNode expRight = new LiteralNode(look.toString());
+                n.right = new SubtractionNode(expLeft, expRight) ;*/
+                
+        }
         n.right.accept(this) ;
+        readLexem();
+    }
+    
+    public void visit (BinaryExpressionNode n) {
+        
     }
 
     public void visit (AdditionNode n) {
+    
 
-        n.left = new LiteralNode() ;
+        //n.left = new LiteralNode() ;
         n.left.accept(this) ;
         
-        readLexem();//reads +
+       // readLexem();//reads +
+        System.out.print("+ ");
+       
         
-        n.right = new LiteralNode() ;
+       // n.right = new LiteralNode() ;
+        n.right.accept(this) ;
+    }
+    
+    public void visit (SubtractionNode n) {
+    
+
+        //n.left = new LiteralNode() ;
+        n.left.accept(this) ;
+        
+       // readLexem();//reads +
+        System.out.print("- ");
+       
+        
+       // n.right = new LiteralNode() ;
         n.right.accept(this) ;
     }
 
     public void visit (LiteralNode n) {
-
-        // What should visit(LiteralNode) do? 
-        // One part of the next assignment.
-        //?????????
-        
-        n.literal = readLexem().toString();
+       if(n.literal==null){
+            n.literal = look.toString();
+            readLexem();
+        }
         n.printNode();
         
     }

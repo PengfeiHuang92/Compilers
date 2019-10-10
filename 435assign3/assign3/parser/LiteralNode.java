@@ -22,6 +22,6 @@ public class LiteralNode extends Node {
 
     void printNode () {
 
-        System.out.println("LiteralNode: " + literal) ;
+        System.out.print(literal+" ") ;
     }
 }

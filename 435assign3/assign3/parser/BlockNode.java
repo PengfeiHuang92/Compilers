@@ -10,7 +10,7 @@ public class BlockNode extends Node {
     //Something like
    
     public List<DeclarationNode> decls ;
-    public List<StatmentNode> stmts ;
+    public List<StatementNode> stmts ;
 
   // public StatementNode[] stmts ;
 

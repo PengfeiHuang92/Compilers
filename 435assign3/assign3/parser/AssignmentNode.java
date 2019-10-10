@@ -5,13 +5,13 @@ import assign3.visitor.* ;
 public class AssignmentNode extends Node {
 
     public LiteralNode  left  ;
-    public ExpressionNode right ;
-    //ExpressionNode right;
+    public AdditionNode right ;
+    //public ExpressionNode right;
 
     public AssignmentNode () {
         
     }
-    public AssignmentNode (LiteralNode left, ExpressionNode right) {
+    public AssignmentNode (LiteralNode left, AdditionNode right) {
 
         this.left  = left  ;
         this.right = right ;

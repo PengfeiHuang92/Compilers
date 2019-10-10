@@ -2,7 +2,7 @@ package assign3.parser ;
 
 import assign3.visitor.* ;
 
-public class AdditionNode extends Node {
+public class AdditionNode extends BinaryExpressionNode {
 
     public LiteralNode left  ;
     public LiteralNode right ;

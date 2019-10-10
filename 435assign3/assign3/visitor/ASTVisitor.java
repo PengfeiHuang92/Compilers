@@ -21,6 +21,11 @@ public class ASTVisitor {
         n.id.accept(this);
     }
     
+    public void visit(StatementNode n){
+        n.assign.accept(this);
+       // n.id.accept(this);
+    }
+    
     public void visit(TypeNode n){
         //n.type.accept(this);
        // System.out.println(n.type);
@@ -40,8 +45,28 @@ public class ASTVisitor {
         n.left.accept(this) ;
         n.right.accept(this) ;
     }
+    
+    public void visit (ExpressionNode n) {
+
+        if(n.classLiteral == null)
+            n.bin.accept(this);
+        else
+            n.classLiteral.accept(this);
+    }
+    
+    public void visit (BinaryExpressionNode n) {
+
+        n.left.accept(this) ;
+        n.right.accept(this) ;
+    }
 
     public void visit (AdditionNode n) {
+
+        n.left.accept(this) ;
+        n.right.accept(this) ;
+    }
+    
+    public void visit (SubtractionNode n) {
 
         n.left.accept(this) ;
         n.right.accept(this) ;
