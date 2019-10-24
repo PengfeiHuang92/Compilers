@@ -4,18 +4,16 @@ import assign3.visitor.* ;
 
 public class AssignmentNode extends Node {
 
-    public LiteralNode  left  ;
-    public BinaryExpressionNode right ;
-    //ExpressionNode right;
+    public ExpressionNode expNode;
 
     public AssignmentNode () {
         
     }
-    public AssignmentNode (LiteralNode left, BinaryExpressionNode right) {
+    public AssignmentNode ( ExpressionNode expNode) {
                                             //ExpressionNode
 
-        this.left  = left  ;
-        this.right = right ;
+        this.expNode  = expNode  ;
+    
     }
 
     public void accept(ASTVisitor v) {

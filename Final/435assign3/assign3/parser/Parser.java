@@ -96,14 +96,18 @@ public class Parser extends ASTVisitor {
         n.assign = new AssignmentNode();
         match(Tag.ID);
         n.assign.accept(this);
-        
-        
         match(';');
         
     }
     
-
+   
     public void visit (AssignmentNode n) {
+        n.expNode = new ExpressionNode();
+        n.expNode.accept(this);
+        
+    }
+    public void visit (ExpressionNode n){
+    
         n.left = new LiteralNode() ;
         n.left.accept(this) ;
         
@@ -112,7 +116,6 @@ public class Parser extends ASTVisitor {
         n.right.accept(this) ;
        // move();
     }
-    
     public void visit (AdditionNode n) {
         n.left = new LiteralNode() ;
         n.left.accept(this) ;

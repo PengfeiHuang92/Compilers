@@ -34,11 +34,13 @@ public class ASTVisitor {
     }
 
     public void visit (AssignmentNode n) {
-
-        n.left.accept(this) ;
-        n.right.accept(this) ;
+        n.expNode.accept(this);
+       
     }
-    
+    public void visit (ExpressionNode n){
+         n.left.accept(this) ;
+         n.right.accept(this) ;
+    }
 
     public void visit (AdditionNode n) {
 
