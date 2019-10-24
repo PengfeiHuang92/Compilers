@@ -6,7 +6,7 @@ public class BinaryExpressionNode extends Node {
 
     public AdditionNode addNode;
     public SubtractionNode subNode;
-    public MultiplicationNode mulNode;
+    public s mulNode;
     public DivisionNode divNode;
     public ModulousNode modNode;
     public LiteralNode litNode;
